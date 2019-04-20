@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withRouter, Link } from "react-router-dom";
-import Button from "@material-ui/core/Button"
+import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -14,7 +14,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormGroup from "@material-ui/core/FormGroup";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import {connect} from "react-redux"
+import { connect } from "react-redux";
 import { hist } from "../index";
 const styles = {
   root: {
@@ -42,7 +42,7 @@ class Header extends React.Component {
   };
 
   render() {
-    const { classes ,auth,history} = this.props;
+    const { classes, auth, history } = this.props;
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
@@ -57,21 +57,14 @@ class Header extends React.Component {
             >
               <MenuIcon />
             </IconButton>
-            <Typography
-              variant="h6"
-              color="inherit"
-              className={classes.grow}
-            >
+            <Typography variant="h6" color="inherit" className={classes.grow}>
               Photos
             </Typography>
             <Button color="inherit " onClick={() => hist.push("/")}>
               {" "}
               Home{" "}
             </Button>
-            <Button
-              color="inherit"
-              onClick={() => hist.push("/leaderboards")}
-            >
+            <Button color="inherit" onClick={() => hist.push("/leaderboards")}>
               LeaderBoards
             </Button>
             {auth.isAuth ? (
@@ -103,10 +96,7 @@ class Header extends React.Component {
                 </Menu>
               </div>
             ) : (
-              <Button
-                color="inherit"
-                onClick={() => hist.push("/login")}
-              >
+              <Button color="inherit" onClick={() => hist.push("/login")}>
                 Login
               </Button>
             )}
@@ -120,20 +110,15 @@ class Header extends React.Component {
 /**Header.propTypes = {
   classes: PropTypes.object.isRequired
 }; */
-const mapStateToProps = (state) => ({
-  auth :state.auth
-})
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
-const mapDispatchToProps = {
-  
-}
+const mapDispatchToProps = {};
 
-
-
-export default
-  withStyles(styles)(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps
-    )(Header)
-  )
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Header)
+);
