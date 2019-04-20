@@ -137,7 +137,7 @@ class Home extends Component {
               color="inherit"
               className={classes.imageTitle}
             >
-              {"Test"}
+              {"submit"}
               <span className={classes.imageMarked} />
             </Typography>
           </span>
