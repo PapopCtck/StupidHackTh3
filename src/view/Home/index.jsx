@@ -102,35 +102,7 @@ class Home extends Component {
                 >
                   <input {...getInputProps()} />
                   {this.state.display ? (
-                    // <img src={imgUrl} className={classes.image} alt="preview" />
-                    <ButtonBase
-                      focusRipple
-                      key={"sfas"}
-                      className={classes.image}
-                      focusVisibleClassName={classes.focusVisible}
-                      style={{
-                        width: "100%"
-                      }}
-                    >
-                      <span
-                        className={classes.imageSrc}
-                        style={{
-                          backgroundImage: `url(${imgUrl})`
-                        }}
-                      />
-                      <span className={classes.imageBackdrop} />
-                      <span className={classes.imageButton}>
-                        <Typography
-                          component="span"
-                          variant="subtitle1"
-                          color="inherit"
-                          className={classes.imageTitle}
-                        >
-                          {"Test"}
-                          <span className={classes.imageMarked} />
-                        </Typography>
-                      </span>
-                    </ButtonBase>
+                    <img src={imgUrl} className={classes.image} alt="preview" />
                   ) : (
                     <p style={fontdrag}>Drop Here</p>
                   )}
@@ -139,6 +111,37 @@ class Home extends Component {
             )}
           </Dropzone>
         </div>
+
+        <ButtonBase
+          focusRipple
+          key={"sfas"}
+          onClick={() => console.log("tsd")}
+          className={classes.image}
+          focusVisibleClassName={classes.focusVisible}
+          style={{
+            marginTop:"1rem",
+            width: "70%"
+          }}
+        >
+          <span
+            className={classes.imageSrc}
+            style={{
+              backgroundImage: `url(${imgUrl})`
+            }}
+          />
+          <span className={classes.imageBackdrop} />
+          <span className={classes.imageButton}>
+            <Typography
+              component="span"
+              variant="subtitle1"
+              color="inherit"
+              className={classes.imageTitle}
+            >
+              {"Test"}
+              <span className={classes.imageMarked} />
+            </Typography>
+          </span>
+        </ButtonBase>
         <ModalSection />
       </Grid>
     );
