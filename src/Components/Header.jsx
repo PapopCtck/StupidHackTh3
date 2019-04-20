@@ -60,7 +60,7 @@ class Header extends React.Component {
             <Typography variant="h6" color="inherit" className={classes.grow}>
               Photos
             </Typography>
-            <Button color="inherit " onClick={() => hist.push("/")}>
+            <Button color="inherit" onClick={() => hist.push("/")}>
               {" "}
               Home{" "}
             </Button>
