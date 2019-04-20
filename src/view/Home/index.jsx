@@ -101,7 +101,12 @@ class Home extends Component {
 
     return (
       <div>
-        <Grid container direction="row" justify="center" alignItems="center">
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          alignItems="center"
+        >
           <div>
             <ThemeProvider theme={theme}>
               <Box
@@ -145,7 +150,12 @@ class Home extends Component {
           </div>
         </Grid>
 
-        <Grid container direction="row" justify="center" alignItems="center">
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          alignItems="center"
+        >
           <ButtonBase
             focusRipple
             key={"sfas"}
@@ -158,7 +168,6 @@ class Home extends Component {
               marginRight: "20%",
               width: "60%"
             }}
-
           >
             <span
               className={classes.imageSrc}
@@ -179,6 +188,29 @@ class Home extends Component {
               </Typography>
             </span>
           </ButtonBase>
+          <Modal
+            isOpen={this.state.modal}
+            title={"test"}
+            content={
+              <div>
+                {number.map(num => (
+                  <Button onClick={() => this.handleSelectNum(num)}>
+                    {num}
+                  </Button>
+                ))}
+                <br />
+                <div>
+                  {selectNum.map((num, index) => (
+                    <Button onClick={() => this.handleDelNum(index)}>
+                      {num}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            }
+            submit={this.handleRealSubmit}
+            handleModal={this.handleModal}
+          />
         </Grid>
       </div>
     );
