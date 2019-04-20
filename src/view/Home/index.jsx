@@ -18,7 +18,6 @@ class Home extends Component {
       imgUrl: "",
       ready: false,
       display: false,
-      dropbox: true
     };
   }
 
@@ -39,7 +38,6 @@ class Home extends Component {
           file: file,
           imgUrl: reader.result,
           display: true,
-          dropbox: false
         });
       };
       reader.readAsDataURL(file);
@@ -93,7 +91,7 @@ class Home extends Component {
             </Box>
           </ThemeProvider>
 
-          {this.state.dropbox && (
+          
             <Dropzone
               onDrop={acceptedFiles => this.handleChange(acceptedFiles)}
             >
@@ -105,17 +103,22 @@ class Home extends Component {
                     className={classes.dropZone}
                   >
                     <input {...getInputProps()} />
-                    <p style={fontdrag}>Drop Here</p>
+                    {this.state.display ? (
+                      <img
+                        src={imgUrl}
+                        className={classes.image}
+                        alt="preview"
+                      />
+                    ) : (
+                      <p style={fontdrag}>Drop Here</p>
+                    )}
                   </Grid>
                 </section>
               )}
             </Dropzone>
-          )}
-          {this.state.display && (
-            <img src={imgUrl} className={classes.image} alt="preview" />
-          )}
+          
         </div>
-        <ModalSection/>
+        <ModalSection />
       </Grid>
     );
   }
