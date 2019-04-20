@@ -14,7 +14,8 @@ class Home extends Component {
     this.state = {
       file: "",
       imgUrl: "",
-      ready: false
+      ready: false,
+      display: false
     };
   }
 
@@ -31,7 +32,7 @@ class Home extends Component {
     if (fileTypes.includes(fileType)) {
       // input is image file
       reader.onloadend = () => {
-        this.setState({ file: file, imgUrl: reader.result, ready: true });
+        this.setState({ file: file, imgUrl: reader.result, display: true });
       };
       reader.readAsDataURL(file);
     } else {
@@ -90,7 +91,9 @@ class Home extends Component {
               </section>
             )}
           </Dropzone>
-          <img src={imgUrl} className={classes.image} alt="preview" />
+          {this.state.display && (
+            <img src={imgUrl} className={classes.image} alt="preview" />
+          )}
         </div>
       </Grid>
     );
