@@ -3,20 +3,33 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch} from "react-router-dom";
+import {Provider} from "react-redux";
+import {createStore,applyMiddleware} from "redux" 
+import thunk from "redux-thunk"; 
 import indexRoutes from './routes/index.jsx'
 import * as serviceWorker from './serviceWorker';
-
+import reducers from "./configs/reducers"
+import {checkAuth} from "./actions/firebase"
+import Header from "./Components/Header"
 export var hist = createBrowserHistory();
+const store = createStore(reducers, applyMiddleware(thunk));
+
+checkAuth(store.dispatch).then(()=>{
 ReactDOM.render(
-  <Router history={hist}>
-    <Switch>
-      {indexRoutes.map((prop, key) => (
-        <Route path={prop.path} key={key} component={prop.component} />
-      ))}
-    </Switch>
-  </Router>,
+  <Provider store={store}>
+  <Header/>
+    <Router history={hist}>
+      <Switch>
+        {indexRoutes.map((prop, key) => (
+          <Route path={prop.path} key={key} component={prop.component} />
+        ))}
+      </Switch>
+    </Router>
+  </Provider>,
   document.getElementById("root")
 );
+})
+
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
