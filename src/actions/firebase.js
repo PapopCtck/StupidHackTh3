@@ -83,17 +83,16 @@ export const fetchLeaderboards = () => (dispatch,getState)=> {
 
 //!--------------------------Lotto ------------------------//
 
-export const sendLotto = (lotto,image) => (dispatch,getState) => {
+export const sendLotto = (image) => (dispatch,getState) => {
   const {auth} =getState()
   var payload = {
     ownerUid : auth.data.uid,
     date: new Date(),
-    lotto:lotto
   }
-    db.collection('lotto').add(payload).then((ref)=>{
+   db.collection('lotto').add(payload).then((ref)=>{
       //upload image to Storage
       //firebase.storage().ref('lotto').child(ref.id+".jpg").put(  image file   )
       console.log(ref.id);
-    })
+    }) 
     
 }
