@@ -131,8 +131,10 @@ export const sendLotto = (image) => (dispatch,getState) => {
 }
 export const sendNumLotto = (numList,Lid) => (dispatch,getState) => {
   const { auth } = getState()
-  db.collection('lottto').doc(Lid).update({
-    lotto:numList
+  db.collection('lotto').doc(Lid).update({
+    lotto:numList,
+    date:new Date(),
+    ownerUid:auth.data.uid
   })
 }
 
