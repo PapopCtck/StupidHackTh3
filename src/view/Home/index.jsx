@@ -7,7 +7,6 @@ import styled, { ThemeProvider } from "styled-components";
 import NoSsr from "@material-ui/core/NoSsr";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { palette, spacing, typography } from "@material-ui/system";
-import styled from "styled-components";
 import { posix } from "path";
 import ModalSection from "./Sections/ModalSection";
 
