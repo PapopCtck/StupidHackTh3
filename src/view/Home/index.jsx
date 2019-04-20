@@ -54,8 +54,9 @@ class Home extends Component {
   };
 
   handleSubmit = () => {
+    this.setState({modal:true,ready:false})
     this.props.sendLotto(this.state.file).then(res => {
-      this.setState({ lottoId: res.id, number: res.data, modal: true });
+      this.setState({ lottoId: res.id, number: res.data ,ready:true});
     });
   };
   handleRealSubmit = () => {
@@ -73,7 +74,7 @@ class Home extends Component {
     a = a.filter((num, i) => i !== index);
     this.setState({ tempDigit: a });
   };
-  handleDelDigit = index => {
+  handleDelNum = index => {
     let a = this.state.selectNum;
     a = a.filter((num, i) => i !== index);
     this.setState({ selectNum: a });
@@ -196,13 +197,13 @@ class Home extends Component {
             isOpen={this.state.modal}
             title={"test"}
             content={
-              ready ? (
+              !ready ? (
                 <div>
-                  <h2>Submit Complete</h2>
+                  <h2>Loading...</h2>
                 </div>
               ) : (
                 <div>
-                  {number.map(num => (
+                  {selectNum.length!==3&&number.map(num => (
                     <Button onClick={() => this.handleSelectDigit(num)}>
                       {num}
                     </Button>
@@ -214,7 +215,7 @@ class Home extends Component {
                         {num}
                       </Button>
                     ))}
-                    {selectNum.length < 3 && tempDigit.length == 2 && (
+                    {selectNum.length < 3 && tempDigit.length === 2 && (
                       <Button color="primary" onClick={this.handleSelectNum}>
                         +
                       </Button>
@@ -229,7 +230,7 @@ class Home extends Component {
                 </div>
               )
             }
-            submit={this.handleRealSubmit}
+            submit={ready&&this.handleRealSubmit}
             handleModal={this.handleModal}
           />
         </Grid>

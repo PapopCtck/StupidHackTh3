@@ -6,6 +6,7 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import * as moment from "moment"
+import { Button } from '@material-ui/core';
 export class ModalListItemSection extends Component {
     state={
         img:null
@@ -27,7 +28,7 @@ export class ModalListItemSection extends Component {
         </ListItemAvatar>
         <ListItemText primary={moment(lotto.date.toDate()).fromNow()} />
         <ListItemSecondaryAction >
-                
+                {lotto.lotto!==undefined && lotto.lotto.map((num)=><Button>{num}</Button>)}
         </ListItemSecondaryAction>
       </ListItem>
     );

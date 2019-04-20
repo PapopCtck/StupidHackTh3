@@ -129,10 +129,14 @@ export const sendLotto = (image) => (dispatch,getState) => {
                   }
                     let Huay = item.description.match(/\d/g).map(Number)
                     let uniqueHuay = Huay.filter( onlyUnique );
-                    console.log(uniqueHuay.sort())
+                    console.log()
+                     resolve({
+                       data: uniqueHuay.sort(),
+                       id: ref.id
+                     });
                     // เอา uniqueHuay ไปใช้ได้เลย
                   })
-                  resolve({ data: res.data ,id:ref.id});
+                 
                 }).catch(err =>{});
             });
         }); 
@@ -144,7 +148,8 @@ export const sendNumLotto = (numList,Lid) => (dispatch,getState) => {
   db.collection('lotto').doc(Lid).update({
     lotto:numList,
     date:new Date(),
-    ownerUid:auth.data.uid
+    ownerUid:auth.data.uid,
+    checked:false
   })
 }
 
