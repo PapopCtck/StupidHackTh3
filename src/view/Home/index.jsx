@@ -6,6 +6,7 @@ import { Grid } from "@material-ui/core";
 import { palette, spacing, typography } from "@material-ui/system";
 import styled from "styled-components";
 import { posix } from "path";
+import ModalSection from "./Sections/ModalSection";
 
 class Home extends Component {
   constructor(props) {
@@ -65,6 +66,7 @@ class Home extends Component {
           </Dropzone>
           <img src={imgUrl} className={classes.image} alt="preview" />
         </div>
+        <ModalSection/>
       </Grid>
     );
   }
