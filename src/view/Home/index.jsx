@@ -80,24 +80,59 @@ class Home extends Component {
     };
 
     return (
-      <Grid container direction="row" justify="center" alignItems="center">
-        <div>
-          <ThemeProvider theme={theme}>
-            <Box
-              color="primary.main"
-              // bgcolor="background.paper"
-              fontFamily="h1.fontFamily"
-              fontSize={{
-                xs: "h6.fontSize",
-                sm: "h4.fontSize",
-                md: "h3.fontSize"
-              }}
-              p={{ xs: 2, sm: 3, md: 4 }}
-            >
-              <h1>DIG LOTTO</h1>
-            </Box>
-          </ThemeProvider>
+      <div>
+        <Grid container direction="row" justify="center" alignItems="center">
+          <div>
+            <ThemeProvider theme={theme}>
+              <Box
+                color="primary.main"
+                // bgcolor="background.paper"
+                fontFamily="h1.fontFamily"
+                fontSize={{
+                  xs: "h6.fontSize",
+                  sm: "h4.fontSize",
+                  md: "h3.fontSize"
+                }}
+                p={{ xs: 2, sm: 3, md: 4 }}
+              >
+                <h1>DIG LOTTO</h1>
+              </Box>
+            </ThemeProvider>
 
+            <Dropzone
+              onDrop={acceptedFiles => this.handleChange(acceptedFiles)}
+            >
+              {({ getRootProps, getInputProps }) => (
+                <section>
+                  <Grid
+                    container
+                    {...getRootProps()}
+                    className={classes.dropZone}
+                  >
+                    <input {...getInputProps()} />
+                    {this.state.display ? (
+                      <img
+                        src={imgUrl}
+                        className={classes.image}
+                        alt="preview"
+                      />
+                    ) : (
+                      <p style={fontdrag}>Drop Here</p>
+                    )}
+                  </Grid>
+                </section>
+              )}
+            </Dropzone>
+          </div>
+        </Grid>
+
+        <Grid container direction="row" justify="center" alignItems="center">
+          <ButtonBase
+            focusRipple
+            key={"sfas"}
+            onClick={() => console.log("tsd")}
+            className={classes.image}
+            focusVisibleClassName={classes.focusVisible}
           <Dropzone
             onDrop={acceptedFiles => this.handleChange(acceptedFiles)}
           >
@@ -138,24 +173,34 @@ class Home extends Component {
           <span
             className={classes.imageSrc}
             style={{
-              backgroundImage: `url(${imgUrl})`
+              marginTop: "1rem",
+              marginLeft: "20%",
+              marginRight: "20%",
+              width: "60%"
             }}
-          />
-          <span className={classes.imageBackdrop} />
-          <span className={classes.imageButton}>
-            <Typography
-              component="span"
-              variant="subtitle1"
-              color="inherit"
-              className={classes.imageTitle}
-            >
-              {"submit"}
-              <span className={classes.imageMarked} />
-            </Typography>
-          </span>
-        </ButtonBase>
-        <ModalSection />
-      </Grid>
+          >
+            <span
+              className={classes.imageSrc}
+              style={{
+                backgroundImage: `url(${imgUrl})`
+              }}
+            />
+            <span className={classes.imageBackdrop} />
+            <span className={classes.imageButton}>
+              <Typography
+                component="span"
+                variant="subtitle1"
+                color="inherit"
+                className={classes.imageTitle}
+              >
+                {"submit"}
+                <span className={classes.imageMarked} />
+              </Typography>
+            </span>
+          </ButtonBase>
+          <ModalSection />
+        </Grid>
+      </div>
     );
   }
 }
