@@ -55,7 +55,10 @@ class Home extends Component {
   };
 
   handleSubmit = () => {
-    this.props.sendLotto(this.state.file);
+    this.props.sendLotto(this.state.file).then((res)=>{
+      console.log(res);
+      
+    })
   };
   handleRealSubmit = () => {
     console.log("test");
@@ -159,7 +162,7 @@ class Home extends Component {
           <ButtonBase
             focusRipple
             key={"sfas"}
-            onClick={() => console.log("tsd")}
+            onClick={this.handleSubmit}
             className={classes.image}
             focusVisibleClassName={classes.focusVisible}
             style={{

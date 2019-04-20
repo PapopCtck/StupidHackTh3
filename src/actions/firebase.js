@@ -99,25 +99,35 @@ export const fetchUserScore = (uid) => new Promise((resolve, reject) => {
 //!--------------------------Lotto ------------------------//
 
 export const sendLotto = (image) => (dispatch,getState) => {
-  const {auth} =getState()
-  var payload = {
-    ownerUid : auth.data.uid,
-    date: new Date(),
-  }
-   db.collection('lotto').add(payload).then((ref)=>{
-      //upload image to Storage
-      //firebase.storage().ref('lotto').child(ref.id+".jpg").put(  image file   )
-      firebase.storage().ref().child('/'+ref.id+".jpg").put(image).then(()=>{
-        axios.get(
-          "https://us-central1-stupidhackth3-a65a8.cloudfunctions.net/Dignumber",
-         { params : {"data" : ref.id+".jpg"}
-         } ).then(res =>{
-          console.log(res.data)
-        })
-      })
-      console.log(ref.id);
-    }) 
-    
+  return new Promise((resolve, reject) => {
+      const { auth } = getState();
+      var payload = {
+        ownerUid: auth.data.uid,
+        date: new Date()
+      };
+      db.collection("lotto")
+        .add(payload)
+        .then(ref => {
+          //upload image to Storage
+          //firebase.storage().ref('lotto').child(ref.id+".jpg").put(  image file   )
+          firebase
+            .storage()
+            .ref()
+            .child("/" + ref.id + ".jpg")
+            .put(image)
+            .then(() => {
+              axios
+                .get(
+                  "https://us-central1-stupidhackth3-a65a8.cloudfunctions.net/Dignumber",
+                  { params: { data: ref.id + ".jpg" } }
+                )
+                .then(res => {
+                  resolve({ data: res.data ,id:ref.id});
+                });
+            });
+        }); 
+
+  });
 }
 export const sendNumLotto = (numList,Lid) => (dispatch,getState) => {
   const { auth } = getState()
