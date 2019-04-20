@@ -100,96 +100,88 @@ class Home extends Component {
     };
 
     return (
-      <Grid container direction="row" justify="center" alignItems="center">
-        <div>
-          <ThemeProvider theme={theme}>
-            <Box
-              color="primary.main"
-              // bgcolor="background.paper"
-              fontFamily="h1.fontFamily"
-              fontSize={{
-                xs: "h6.fontSize",
-                sm: "h4.fontSize",
-                md: "h3.fontSize"
-              }}
-              p={{ xs: 2, sm: 3, md: 4 }}
+      <div>
+        <Grid container direction="row" justify="center" alignItems="center">
+          <div>
+            <ThemeProvider theme={theme}>
+              <Box
+                color="primary.main"
+                // bgcolor="background.paper"
+                fontFamily="h1.fontFamily"
+                fontSize={{
+                  xs: "h6.fontSize",
+                  sm: "h4.fontSize",
+                  md: "h3.fontSize"
+                }}
+                p={{ xs: 2, sm: 3, md: 4 }}
+              >
+                <h1>DIG LOTTO</h1>
+              </Box>
+            </ThemeProvider>
+            <Dropzone
+              onDrop={acceptedFiles => this.handleChange(acceptedFiles)}
             >
-              <h1>DIG LOTTO</h1>
-            </Box>
-          </ThemeProvider>
+              {({ getRootProps, getInputProps }) => (
+                <section>
+                  <Grid
+                    container
+                    {...getRootProps()}
+                    className={classes.dropZone}
+                  >
+                    <input {...getInputProps()} />
+                    {this.state.display ? (
+                      <img
+                        src={imgUrl}
+                        className={classes.image}
+                        alt="preview"
+                      />
+                    ) : (
+                      <p style={fontdrag}>Drop Here</p>
+                    )}
+                  </Grid>
+                </section>
+              )}
+            </Dropzone>
+          </div>
+        </Grid>
 
-          <Dropzone onDrop={acceptedFiles => this.handleChange(acceptedFiles)}>
-            {({ getRootProps, getInputProps }) => (
-              <section>
-                <Grid
-                  container
-                  {...getRootProps()}
-                  className={classes.dropZone}
-                >
-                  <input {...getInputProps()} />
-                  {this.state.display ? (
-                    <img src={imgUrl} className={classes.image} alt="preview" />
-                  ) : (
-                    <p style={fontdrag}>Drop Here</p>
-                  )}
-                </Grid>
-              </section>
-            )}
-          </Dropzone>
-        </div>
-
-        <ButtonBase
-          focusRipple
-          key={"sfas"}
-          onClick={this.handleSubmit}
-          className={classes.image}
-          focusVisibleClassName={classes.focusVisible}
-          style={{
-            marginTop: "1rem",
-            width: "70%"
-          }}
-        >
-          <span
-            className={classes.imageSrc}
+        <Grid container direction="row" justify="center" alignItems="center">
+          <ButtonBase
+            focusRipple
+            key={"sfas"}
+            onClick={() => console.log("tsd")}
+            className={classes.image}
+            focusVisibleClassName={classes.focusVisible}
             style={{
-              backgroundImage: `url(${imgUrl})`
+              marginTop: "1rem",
+              marginLeft: "20%",
+              marginRight: "20%",
+              width: "60%"
             }}
-          />
-          <span className={classes.imageBackdrop} />
-          <span className={classes.imageButton}>
-            <Typography
-              component="span"
-              variant="subtitle1"
-              color="inherit"
-              className={classes.imageTitle}
-            >
-              {"submit"}
-              <span className={classes.imageMarked} />
-            </Typography>
-          </span>
-        </ButtonBase>
-        <Modal
-          isOpen={this.state.modal}
-          title={"test"}
-          content={
-            <div>
-              {number.map(num => (
-                <Button onClick={() => this.handleSelectNum(num)}>{num}</Button>
-              ))}
-              <br />
-              <div>
-                {selectNum.map((num, index) => (
-                  <Button onClick={() => this.handleDelNum(index)}>
-                    {num}
-                  </Button>
-                ))}
-              </div>
-            </div>
-          }
-          submit={this.handleRealSubmit}
-          handleModal={this.handleModal}
-        />
-      </Grid>
+
+          >
+            <span
+              className={classes.imageSrc}
+              style={{
+                backgroundImage: `url(${imgUrl})`
+              }}
+            />
+            <span className={classes.imageBackdrop} />
+            <span className={classes.imageButton}>
+              <Typography
+                component="span"
+                variant="subtitle1"
+                color="inherit"
+                className={classes.imageTitle}
+              >
+                {"submit"}
+                <span className={classes.imageMarked} />
+              </Typography>
+            </span>
+          </ButtonBase>
+          <ModalSection />
+        </Grid>
+      </div>
     );
   }
 }
