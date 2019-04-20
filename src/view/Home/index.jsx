@@ -2,27 +2,32 @@ import React, { Component } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import homeStyle from "../../assets/jss/homeStyle";
 import Dropzone from "react-dropzone";
-import { Grid } from "@material-ui/core";
+import { Grid, Button } from "@material-ui/core";
 import styled, { ThemeProvider } from "styled-components";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { palette, spacing, typography } from "@material-ui/system";
 import Typography from "@material-ui/core/Typography";
-import { posix } from "path";
 import ModalSection from "./Sections/ModalSection";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import { connect } from 'react-redux'
 import {sendLotto} from "../../actions/firebase"
-
+import Modal from "../../Components/Modal";
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      modal: false,
       file: "",
       imgUrl: "",
       ready: false,
-      display: false
+      display: false,
+      number: [0,9,1,7,4,8,6,3,7,3],
+      selectNum: []
     };
   }
+  handleModal = () => {
+    this.setState({ modal: !this.state.modal });
+  };
 
   handleChange = files => {
     var fileTypes = ["jpg", "jpeg", "png"];
@@ -50,10 +55,25 @@ class Home extends Component {
   };
 
   handleSubmit = () => {
-    this.props.sendLotto(this.state.file)
+    this.props.sendLotto(this.state.file);
+  };
+  handleRealSubmit = () => {
+    console.log("test");
+  };
+  handleSelectNum = num => {
+    let a = this.state.selectNum;
+    a.unshift(num);
+    a.length === 3 && a.pop();
+    this.setState({ selectNum: a });
+  };
+  handleDelNum = index => {
+    let a = this.state.selectNum
+    a = a.filter((num,i)=> i!=index)
+    this.setState({selectNum:a})
   }
 
   render() {
+    const { number, selectNum } = this.state;
     const Box = styled.div`${palette}${spacing}${typography}`;
     const theme = createMuiTheme({
       typography: {
@@ -138,6 +158,7 @@ class Home extends Component {
               marginRight: "20%",
               width: "60%"
             }}
+
           >
             <span
               className={classes.imageSrc}

@@ -7,9 +7,10 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
-import { fetchLeaderboards } from "../../actions/firebase";
+import { fetchLeaderboards, fetchUserScore ,getImgfromStorage } from "../../actions/firebase";
 import { connect } from 'react-redux'
 import Modal from "../../Components/Modal";
+import ModalListItemSection from './Sections/ModalListItemSection';
 
 const styles = theme => ({
   root: {
@@ -25,7 +26,9 @@ export class LeaderBoards extends Component {
          constructor(props) {
            super(props);
            this.state = {
+             selectUserList:[],
              modal: false,
+             imgList:[],
              selectUser:""
            };
          }
@@ -37,11 +40,13 @@ export class LeaderBoards extends Component {
            this.setState({ modal: !this.state.modal });
          };
          handleOpen =(user)=> {
-           this.setState({selectUser:user,modal:true})
+           fetchUserScore(user.id).then((list)=>{
+            this.setState({ selectUser: user, modal: true ,selectUserList:list});
+           })
          }
 
          render() {
-           const { modal, selectUser } = this.state;
+           const { modal, selectUser ,selectUserList } = this.state;
            const { classes, content } = this.props;
            return content.hasContent ? (
              <List className={classes.root}>
@@ -84,7 +89,13 @@ export class LeaderBoards extends Component {
                    title={selectUser.data.displayName}
                    isOpen={modal}
                    handleModal={this.handleModal}
-                   content={<div>{selectUser.id}</div>}
+                   content={
+                     <List>
+                       {selectUserList.map(item => (
+                         <ModalListItemSection lotto={item} />
+                       ))}
+                     </List>
+                   }
                  />
                )}
              </List>
