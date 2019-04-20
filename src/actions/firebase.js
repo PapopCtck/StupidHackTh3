@@ -29,7 +29,7 @@ export const checkAuth = dispatch =>
                 digged:0,
                 star :0
               }
-              userRef.update(payload);
+              userRef.set(payload);
             } else {
               // เผื่อดึงข้อมูล 
               payload = {
@@ -70,7 +70,7 @@ export const signOut = () => dispatch => {
 //!--------------------------Leaderboards ------------------------//
 
 export const fetchLeaderboards = () => (dispatch,getState)=> {
-  db.collection('users').onSnapshot((snap)=>{
+  db.collection('users').orderBy('star',"desc").onSnapshot((snap)=>{
     var usersList = []
     snap.forEach((userRef)=> {
       usersList.push({ data: userRef.data(), id: userRef.id });
