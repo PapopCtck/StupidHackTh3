@@ -15,7 +15,7 @@ export class Login extends Component {
            callbacks: {
              signInSuccess: () => {
                // ? ควรเด้งกลับไปหน้าที่มาก่อนหน้า
-               this.props.history.push("/login");
+               this.props.history.push("/");
              }
            }
          };
