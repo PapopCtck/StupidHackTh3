@@ -9,6 +9,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import { fetchLeaderboards } from "../../actions/firebase";
 import { connect } from 'react-redux'
+import Modal from "../../Components/Modal";
 
 const styles = theme => ({
   root: {
@@ -21,27 +22,44 @@ const styles = theme => ({
 });
 
 export class LeaderBoards extends Component {
+         constructor(props) {
+           super(props);
+           this.state = {
+             modal: false,
+             selectUser:""
+           };
+         }
 
-  componentDidMount() {
-  this.props.fetchLeaderboards()
-  }
-
+         componentDidMount() {
+           this.props.fetchLeaderboards();
+         }
+         handleModal = () => {
+           this.setState({ modal: !this.state.modal });
+         };
+         handleOpen =(user)=> {
+           this.setState({selectUser:user,modal:true})
+         }
 
          render() {
-           const { classes,content} = this.props
-           return (
+           const { modal, selectUser } = this.state;
+           const { classes, content } = this.props;
+           return content.hasContent ? (
              <List className={classes.root}>
                {content.data.map((user, index) => (
-                 <ListItem alignItems="flex-start">
+                 <ListItem
+                   button
+                   onClick={() => {
+                     this.handleOpen(user);
+                   }}
+                   alignItems="flex-start"
+                 >
                    <ListItemAvatar>
                      <Avatar
                        alt="Remy Sharp"
                        src={user.data.photoURL}
                      />
                    </ListItemAvatar>
-                   <ListItemText
-                     primary={user.data.displayName}
-                   />
+                   <ListItemText primary={user.data.displayName} />
                    <ListItemSecondaryAction>
                      <React.Fragment>
                        <Typography
@@ -50,8 +68,7 @@ export class LeaderBoards extends Component {
                          color="textPrimary"
                        >
                          {user.data.star} Star
-                       </Typography>
-                       {" "}
+                       </Typography>{" "}
                        <Typography
                          component="span"
                          className={classes.inline}
@@ -62,8 +79,17 @@ export class LeaderBoards extends Component {
                    </ListItemSecondaryAction>
                  </ListItem>
                ))}
-
+               {selectUser.data !== undefined && (
+                 <Modal
+                   title={selectUser.data.displayName}
+                   isOpen={modal}
+                   handleModal={this.handleModal}
+                   content={<div>{selectUser.id}</div>}
+                 />
+               )}
              </List>
+           ) : (
+             <p>Loading</p>
            );
          }
        }

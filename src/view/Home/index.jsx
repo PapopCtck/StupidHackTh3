@@ -10,6 +10,8 @@ import Typography from "@material-ui/core/Typography";
 import { posix } from "path";
 import ModalSection from "./Sections/ModalSection";
 import ButtonBase from "@material-ui/core/ButtonBase";
+import { connect } from 'react-redux'
+import {sendLotto} from "../../actions/firebase"
 
 class Home extends Component {
   constructor(props) {
@@ -46,6 +48,10 @@ class Home extends Component {
       //input wrong
     }
   };
+
+  handleSubmit = () => {
+    this.props.sendLotto(this.state.file)
+  }
 
   render() {
     const Box = styled.div`${palette}${spacing}${typography}`;
@@ -127,6 +133,45 @@ class Home extends Component {
             onClick={() => console.log("tsd")}
             className={classes.image}
             focusVisibleClassName={classes.focusVisible}
+          <Dropzone
+            onDrop={acceptedFiles => this.handleChange(acceptedFiles)}
+          >
+            {({ getRootProps, getInputProps }) => (
+              <section>
+                <Grid
+                  container
+                  {...getRootProps()}
+                  className={classes.dropZone}
+                >
+                  <input {...getInputProps()} />
+                  {this.state.display ? (
+                    <img
+                      src={imgUrl}
+                      className={classes.image}
+                      alt="preview"
+                    />
+                  ) : (
+                    <p style={fontdrag}>Drop Here</p>
+                  )}
+                </Grid>
+              </section>
+            )}
+          </Dropzone>
+        </div>
+
+        <ButtonBase
+          focusRipple
+          key={"sfas"}
+          onClick={this.handleSubmit}
+          className={classes.image}
+          focusVisibleClassName={classes.focusVisible}
+          style={{
+            marginTop: "1rem",
+            width: "70%"
+          }}
+        >
+          <span
+            className={classes.imageSrc}
             style={{
               marginTop: "1rem",
               marginLeft: "20%",
@@ -159,5 +204,12 @@ class Home extends Component {
     );
   }
 }
+const mapStateToProps = (state) => ({
+  
+})
 
-export default withStyles(homeStyle)(Home);
+const mapDispatchToProps = {
+  sendLotto
+};
+
+export default withStyles(homeStyle)(connect(mapStateToProps,mapDispatchToProps)(Home));

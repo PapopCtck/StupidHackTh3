@@ -36,6 +36,22 @@ export class Login extends Component {
   handleLogOut = () => {
     this.props.signOut();
   };
+         uiConfig = {
+           signInFlow: "popup",
+           signInOptions: [
+             firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+             firebase.auth.EmailAuthProvider.PROVIDER_ID
+           ],
+           callbacks: {
+             signInSuccess: () => {
+               // ? ควรเด้งกลับไปหน้าที่มาก่อนหน้า
+               this.props.history.push("/");
+             }
+           }
+         };
+         handleLogOut=()=>{
+             this.props.signOut()
+         }
 
   render() {
     const { auth } = this.props;
