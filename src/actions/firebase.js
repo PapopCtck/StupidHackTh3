@@ -78,7 +78,22 @@ export const fetchLeaderboards = () => (dispatch,getState)=> {
     dispatch({type:FETCH_CONTENT_SUCCESS,payload:usersList})
   })
 }
-
+export const fetchUserScore = (uid) => new Promise((resolve, reject) => {
+  
+  
+  db.collection("lotto")
+   .where("ownerUid", "==", uid)
+    .onSnapshot(snap => {
+      var list = [];
+      snap.forEach(lottoRef => {
+        list.push({ ...lottoRef.data() ,id:lottoRef.id});
+      });
+      list = list.sort((a, b) => {
+        return b.date.toDate()-a.date.toDate();
+      });
+      resolve(list);
+    });
+});
 
 
 //!--------------------------Lotto ------------------------//
@@ -96,3 +111,31 @@ export const sendLotto = (image) => (dispatch,getState) => {
     }) 
     
 }
+export const sendNumLotto = (numList,Lid) => (dispatch,getState) => {
+  const { auth } = getState()
+  db.collection('lottto').doc(Lid).update({
+    lotto:numList
+  })
+}
+
+
+
+
+
+
+
+
+
+export const getImgfromStorage = (fileName) => {
+  return new Promise((resolve, reject) => {
+    firebase
+      .storage()
+      .ref()
+      .child(fileName)
+      .getDownloadURL()
+      .then(url => {
+        return resolve(url);
+      })
+      .catch(e => console.warn(e));
+  });
+};
