@@ -5,7 +5,7 @@ import {
 } from "../constants";
 
 const initialState = {
-  data: {},
+  data: [],
   isFetching: false,
   status: "visitor"
 };
