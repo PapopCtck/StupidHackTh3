@@ -120,39 +120,41 @@ class Home extends Component {
           </div>
         </Grid>
 
-        <ButtonBase
-          focusRipple
-          key={"sfas"}
-          onClick={() => console.log("tsd")}
-          className={classes.image}
-          focusVisibleClassName={classes.focusVisible}
-          style={{
-            marginTop: "1rem",
-            marginLeft: "20%",
-            marginRight: "20%",
-            width: "60%"
-          }}
-        >
-          <span
-            className={classes.imageSrc}
+        <Grid container direction="row" justify="center" alignItems="center">
+          <ButtonBase
+            focusRipple
+            key={"sfas"}
+            onClick={() => console.log("tsd")}
+            className={classes.image}
+            focusVisibleClassName={classes.focusVisible}
             style={{
-              backgroundImage: `url(${imgUrl})`
+              marginTop: "1rem",
+              marginLeft: "20%",
+              marginRight: "20%",
+              width: "60%"
             }}
-          />
-          <span className={classes.imageBackdrop} />
-          <span className={classes.imageButton}>
-            <Typography
-              component="span"
-              variant="subtitle1"
-              color="inherit"
-              className={classes.imageTitle}
-            >
-              {"submit"}
-              <span className={classes.imageMarked} />
-            </Typography>
-          </span>
-        </ButtonBase>
-        <ModalSection />
+          >
+            <span
+              className={classes.imageSrc}
+              style={{
+                backgroundImage: `url(${imgUrl})`
+              }}
+            />
+            <span className={classes.imageBackdrop} />
+            <span className={classes.imageButton}>
+              <Typography
+                component="span"
+                variant="subtitle1"
+                color="inherit"
+                className={classes.imageTitle}
+              >
+                {"submit"}
+                <span className={classes.imageMarked} />
+              </Typography>
+            </span>
+          </ButtonBase>
+          <ModalSection />
+        </Grid>
       </div>
     );
   }
