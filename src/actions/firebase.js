@@ -122,8 +122,18 @@ export const sendLotto = (image) => (dispatch,getState) => {
                   { params: { data: ref.id + ".jpg" } }
                 )
                 .then(res => {
+                  let ResponseData = res.data[0].textAnnotations;
+                  ResponseData.map((item)=>{
+                    function onlyUnique(value, index, self) { 
+                      return self.indexOf(value) === index;
+                  }
+                    let Huay = item.description.match(/\d/g).map(Number)
+                    let uniqueHuay = Huay.filter( onlyUnique );
+                    console.log(uniqueHuay.sort())
+                    // เอา uniqueHuay ไปใช้ได้เลย
+                  })
                   resolve({ data: res.data ,id:ref.id});
-                });
+                }).catch(err =>{});
             });
         }); 
 
