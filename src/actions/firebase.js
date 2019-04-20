@@ -1,4 +1,5 @@
 import firebase from "../configs/firebase";
+import axios from 'axios';
 import {
   FETCH_USER,
   FETCH_USER_SUCCESS,
@@ -92,6 +93,14 @@ export const sendLotto = (image) => (dispatch,getState) => {
    db.collection('lotto').add(payload).then((ref)=>{
       //upload image to Storage
       //firebase.storage().ref('lotto').child(ref.id+".jpg").put(  image file   )
+      firebase.storage().ref().child('/'+ref.id+".jpg").put(image).then(()=>{
+        axios.get(
+          "https://us-central1-stupidhackth3-a65a8.cloudfunctions.net/Dignumber",
+         { params : {"data" : ref.id+".jpg"}
+         } ).then(res =>{
+          console.log(res.data)
+        })
+      })
       console.log(ref.id);
     }) 
     
