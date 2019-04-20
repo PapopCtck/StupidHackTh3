@@ -15,7 +15,8 @@ class Home extends Component {
       file: "",
       imgUrl: "",
       ready: false,
-      display: false
+      display: false,
+      dropbox: true
     };
   }
 
@@ -32,7 +33,12 @@ class Home extends Component {
     if (fileTypes.includes(fileType)) {
       // input is image file
       reader.onloadend = () => {
-        this.setState({ file: file, imgUrl: reader.result, display: true });
+        this.setState({
+          file: file,
+          imgUrl: reader.result,
+          display: true,
+          dropbox: false
+        });
       };
       reader.readAsDataURL(file);
     } else {
@@ -58,6 +64,14 @@ class Home extends Component {
     const { classes } = this.props;
     const { imgUrl } = this.state;
 
+    const fontdrag = {
+      flex: 1,
+      color: "Black",
+      fontSize: "40px",
+      justifyContent: "center",
+      alignItems: "center"
+    };
+
     return (
       <Grid container direction="row" justify="center" alignItems="center">
         <div>
@@ -73,24 +87,28 @@ class Home extends Component {
               }}
               p={{ xs: 2, sm: 3, md: 4 }}
             >
-              <h1>Home Screen</h1>
+              <h1>DIG LOTTO</h1>
             </Box>
           </ThemeProvider>
 
-          <Dropzone onDrop={acceptedFiles => this.handleChange(acceptedFiles)}>
-            {({ getRootProps, getInputProps }) => (
-              <section>
-                <Grid
-                  container
-                  {...getRootProps()}
-                  className={classes.dropZone}
-                >
-                  <input {...getInputProps()} />
-                  <p>Drag 'n' drop some files here, or click to select files</p>
-                </Grid>
-              </section>
-            )}
-          </Dropzone>
+          {this.state.dropbox && (
+            <Dropzone
+              onDrop={acceptedFiles => this.handleChange(acceptedFiles)}
+            >
+              {({ getRootProps, getInputProps }) => (
+                <section>
+                  <Grid
+                    container
+                    {...getRootProps()}
+                    className={classes.dropZone}
+                  >
+                    <input {...getInputProps()} />
+                    <p style={fontdrag}>Drop Here</p>
+                  </Grid>
+                </section>
+              )}
+            </Dropzone>
+          )}
           {this.state.display && (
             <img src={imgUrl} className={classes.image} alt="preview" />
           )}
