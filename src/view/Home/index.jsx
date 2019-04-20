@@ -4,11 +4,12 @@ import homeStyle from "../../assets/jss/homeStyle";
 import Dropzone from "react-dropzone";
 import { Grid } from "@material-ui/core";
 import styled, { ThemeProvider } from "styled-components";
-import NoSsr from "@material-ui/core/NoSsr";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { palette, spacing, typography } from "@material-ui/system";
+import Typography from "@material-ui/core/Typography";
 import { posix } from "path";
 import ModalSection from "./Sections/ModalSection";
+import ButtonBase from "@material-ui/core/ButtonBase";
 
 class Home extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class Home extends Component {
       file: "",
       imgUrl: "",
       ready: false,
-      display: false,
+      display: false
     };
   }
 
@@ -37,7 +38,7 @@ class Home extends Component {
         this.setState({
           file: file,
           imgUrl: reader.result,
-          display: true,
+          display: true
         });
       };
       reader.readAsDataURL(file);
@@ -91,33 +92,56 @@ class Home extends Component {
             </Box>
           </ThemeProvider>
 
-          
-            <Dropzone
-              onDrop={acceptedFiles => this.handleChange(acceptedFiles)}
-            >
-              {({ getRootProps, getInputProps }) => (
-                <section>
-                  <Grid
-                    container
-                    {...getRootProps()}
-                    className={classes.dropZone}
-                  >
-                    <input {...getInputProps()} />
-                    {this.state.display ? (
-                      <img
-                        src={imgUrl}
-                        className={classes.image}
-                        alt="preview"
-                      />
-                    ) : (
-                      <p style={fontdrag}>Drop Here</p>
-                    )}
-                  </Grid>
-                </section>
-              )}
-            </Dropzone>
-          
+          <Dropzone onDrop={acceptedFiles => this.handleChange(acceptedFiles)}>
+            {({ getRootProps, getInputProps }) => (
+              <section>
+                <Grid
+                  container
+                  {...getRootProps()}
+                  className={classes.dropZone}
+                >
+                  <input {...getInputProps()} />
+                  {this.state.display ? (
+                    <img src={imgUrl} className={classes.image} alt="preview" />
+                  ) : (
+                    <p style={fontdrag}>Drop Here</p>
+                  )}
+                </Grid>
+              </section>
+            )}
+          </Dropzone>
         </div>
+
+        <ButtonBase
+          focusRipple
+          key={"sfas"}
+          onClick={() => console.log("tsd")}
+          className={classes.image}
+          focusVisibleClassName={classes.focusVisible}
+          style={{
+            marginTop:"1rem",
+            width: "70%"
+          }}
+        >
+          <span
+            className={classes.imageSrc}
+            style={{
+              backgroundImage: `url(${imgUrl})`
+            }}
+          />
+          <span className={classes.imageBackdrop} />
+          <span className={classes.imageButton}>
+            <Typography
+              component="span"
+              variant="subtitle1"
+              color="inherit"
+              className={classes.imageTitle}
+            >
+              {"submit"}
+              <span className={classes.imageMarked} />
+            </Typography>
+          </span>
+        </ButtonBase>
         <ModalSection />
       </Grid>
     );
