@@ -37,6 +37,7 @@ export class Login extends Component {
     this.props.signOut();
   };
 
+
   render() {
     const { auth } = this.props;
     return (

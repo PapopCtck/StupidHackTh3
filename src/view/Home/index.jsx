@@ -10,6 +10,8 @@ import Typography from "@material-ui/core/Typography";
 import { posix } from "path";
 import ModalSection from "./Sections/ModalSection";
 import ButtonBase from "@material-ui/core/ButtonBase";
+import { connect } from 'react-redux'
+import {sendLotto} from "../../actions/firebase"
 
 class Home extends Component {
   constructor(props) {
@@ -46,6 +48,10 @@ class Home extends Component {
       //input wrong
     }
   };
+
+  handleSubmit = () => {
+    this.props.sendLotto(this.state.file)
+  }
 
   render() {
     const Box = styled.div`${palette}${spacing}${typography}`;
@@ -92,7 +98,6 @@ class Home extends Component {
                 <h1>DIG LOTTO</h1>
               </Box>
             </ThemeProvider>
-
             <Dropzone
               onDrop={acceptedFiles => this.handleChange(acceptedFiles)}
             >
@@ -159,5 +164,12 @@ class Home extends Component {
     );
   }
 }
+const mapStateToProps = (state) => ({
+  
+})
 
-export default withStyles(homeStyle)(Home);
+const mapDispatchToProps = {
+  sendLotto
+};
+
+export default withStyles(homeStyle)(connect(mapStateToProps,mapDispatchToProps)(Home));

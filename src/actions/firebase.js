@@ -1,4 +1,5 @@
 import firebase from "../configs/firebase";
+import axios from 'axios';
 import {
   FETCH_USER,
   FETCH_USER_SUCCESS,
@@ -29,7 +30,7 @@ export const checkAuth = dispatch =>
                 digged:0,
                 star :0
               }
-              userRef.update(payload);
+              userRef.set(payload);
             } else {
               // เผื่อดึงข้อมูล 
               payload = {
@@ -70,7 +71,7 @@ export const signOut = () => dispatch => {
 //!--------------------------Leaderboards ------------------------//
 
 export const fetchLeaderboards = () => (dispatch,getState)=> {
-  db.collection('users').onSnapshot((snap)=>{
+  db.collection('users').orderBy('star',"desc").onSnapshot((snap)=>{
     var usersList = []
     snap.forEach((userRef)=> {
       usersList.push({ data: userRef.data(), id: userRef.id });
@@ -83,17 +84,24 @@ export const fetchLeaderboards = () => (dispatch,getState)=> {
 
 //!--------------------------Lotto ------------------------//
 
-export const sendLotto = (lotto,image) => (dispatch,getState) => {
+export const sendLotto = (image) => (dispatch,getState) => {
   const {auth} =getState()
   var payload = {
     ownerUid : auth.data.uid,
     date: new Date(),
-    lotto:lotto
   }
-    db.collection('lotto').add(payload).then((ref)=>{
+   db.collection('lotto').add(payload).then((ref)=>{
       //upload image to Storage
       //firebase.storage().ref('lotto').child(ref.id+".jpg").put(  image file   )
+      firebase.storage().ref().child('/'+ref.id+".jpg").put(image).then(()=>{
+        axios.get(
+          "https://us-central1-stupidhackth3-a65a8.cloudfunctions.net/Dignumber",
+         { params : {"data" : ref.id+".jpg"}
+         } ).then(res =>{
+          console.log(res.data)
+        })
+      })
       console.log(ref.id);
-    })
+    }) 
     
 }

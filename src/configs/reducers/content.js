@@ -6,6 +6,7 @@ import {
 
 const initialState = {
   data: [],
+  hasContent:false,
   isFetching: false,
   status: "visitor"
 };
@@ -13,11 +14,12 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH_CONTENT: //unlogin yet
-      return { ...state, isFetching: true };
+      return { ...state, isFetching: true, hasContent: false };
     case FETCH_CONTENT_SUCCESS: //logined
       return {
         ...state,
         isFetching: false,
+        hasContent: true,
         data: action.payload
       };
     case FETCH_CONTENT_CLEAR:
