@@ -10,7 +10,6 @@ import { hist } from "../index.js";
 const db = firebase.firestore();
 
 //!---------------------------- AUTH ---------------------------------
-
 export const checkAuth = dispatch =>
   new Promise((resolve, reject) => {
     firebase.auth().onAuthStateChanged(user => {

@@ -179,7 +179,6 @@ class Home extends Component {
               </Typography>
             </span>
           </ButtonBase>
-          <ModalSection />
         </Grid>
       </div>
     );
