@@ -1,4 +1,8 @@
-const modalStyle = {
+const modalStyle = theme =>({
+  root: {
+    width: "100%",
+    backgroundColor: theme.palette.background.paper
+  },
   modal: {
     borderRadius: "6px"
   },
@@ -50,6 +54,6 @@ const modalStyle = {
     marginLeft: "auto",
     marginRight: "auto"
   }
-};
+})
 
 export default modalStyle;

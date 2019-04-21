@@ -8,6 +8,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import Avatar from "@material-ui/core/Avatar";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -34,7 +35,7 @@ class Header extends React.Component {
     anchorEl: null
   };
   handleMenu = event => {
-    this.setState({ anchorEl: event.currentTarget });
+    hist.push('/login')
   };
 
   handleClose = () => {
@@ -54,13 +55,11 @@ class Header extends React.Component {
               className={classes.menuButton}
               color="inherit"
               aria-label="Menu"
-            >
-              <MenuIcon />
-            </IconButton>
+            />
             <Typography variant="h6" color="inherit" className={classes.grow}>
-              Photos
+              DIG LOTTO
             </Typography>
-            <Button color="inherit " onClick={() => hist.push("/")}>
+            <Button color="inherit" onClick={() => hist.push("/")}>
               {" "}
               Home{" "}
             </Button>
@@ -75,25 +74,8 @@ class Header extends React.Component {
                   onClick={this.handleMenu}
                   color="inherit"
                 >
-                  <AccountCircle />
+                  <Avatar src={auth.data.photoURL} />
                 </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right"
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right"
-                  }}
-                  open={open}
-                  onClose={this.handleClose}
-                >
-                  <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                </Menu>
               </div>
             ) : (
               <Button color="inherit" onClick={() => hist.push("/login")}>

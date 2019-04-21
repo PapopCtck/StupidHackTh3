@@ -7,25 +7,19 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
-import { fetchLeaderboards } from "../../actions/firebase";
+import { fetchLeaderboards, fetchUserScore ,getImgfromStorage } from "../../actions/firebase";
 import { connect } from 'react-redux'
 import Modal from "../../Components/Modal";
-
-const styles = theme => ({
-  root: {
-    width: "100%",
-    backgroundColor: theme.palette.background.paper
-  },
-  inline: {
-    display: "inline"
-  }
-});
-
+import ModalListItemSection from './Sections/ModalListItemSection';
+import leaderStyle from "../../assets/jss/leaderStyle"
+import StarIcon from "@material-ui/icons/Star";
 export class LeaderBoards extends Component {
          constructor(props) {
            super(props);
            this.state = {
+             selectUserList:[],
              modal: false,
+             imgList:[],
              selectUser:""
            };
          }
@@ -37,11 +31,13 @@ export class LeaderBoards extends Component {
            this.setState({ modal: !this.state.modal });
          };
          handleOpen =(user)=> {
-           this.setState({selectUser:user,modal:true})
+           fetchUserScore(user.id).then((list)=>{
+            this.setState({ selectUser: user, modal: true ,selectUserList:list});
+           })
          }
 
          render() {
-           const { modal, selectUser } = this.state;
+           const { modal, selectUser ,selectUserList } = this.state;
            const { classes, content } = this.props;
            return content.hasContent ? (
              <List className={classes.root}>
@@ -67,7 +63,7 @@ export class LeaderBoards extends Component {
                          className={classes.inline}
                          color="textPrimary"
                        >
-                         {user.data.star} Star
+                         {user.data.star}<StarIcon/> 
                        </Typography>{" "}
                        <Typography
                          component="span"
@@ -75,16 +71,24 @@ export class LeaderBoards extends Component {
                        >
                          {user.data.digged}%
                        </Typography>
+                       <star_rate/>
                      </React.Fragment>
                    </ListItemSecondaryAction>
                  </ListItem>
                ))}
                {selectUser.data !== undefined && (
                  <Modal
+                 className={classes.modal}
                    title={selectUser.data.displayName}
                    isOpen={modal}
                    handleModal={this.handleModal}
-                   content={<div>{selectUser.id}</div>}
+                   content={
+                     <List>
+                       {selectUserList.map(item => (
+                         <ModalListItemSection lotto={item} />
+                       ))}
+                     </List>
+                   }
                  />
                )}
              </List>
@@ -103,4 +107,9 @@ const mapDispatchToProps = {
 };
 
 
-export default withStyles(styles)(connect(mapStateToProps,mapDispatchToProps)(LeaderBoards));
+export default withStyles(leaderStyle)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(LeaderBoards)
+);
