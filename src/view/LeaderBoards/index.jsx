@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -10,27 +10,34 @@ import Typography from "@material-ui/core/Typography";
 import {
   fetchLeaderboards,
   fetchUserScore,
+<<<<<<< HEAD
   fetchFeeds,
   fetchSystem
 } from "../../actions/firebase";
 import { connect } from 'react-redux'
+=======
+  getImgfromStorage
+} from "../../actions/firebase";
+import { connect } from "react-redux";
+>>>>>>> master
 import Modal from "../../Components/Modal";
-import ModalListItemSection from './Sections/ModalListItemSection';
-import leaderStyle from "../../assets/jss/leaderStyle"
+import ModalListItemSection from "./Sections/ModalListItemSection";
+import leaderStyle from "../../assets/jss/leaderStyle";
 import StarIcon from "@material-ui/icons/Star";
 import * as moment from "moment";
 import { Grid } from '@material-ui/core';
 export class LeaderBoards extends Component {
-         constructor(props) {
-           super(props);
-           this.state = {
-             selectUserList:[],
-             modal: false,
-             imgList:[],
-             selectUser:""
-           };
-         }
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectUserList: [],
+      modal: false,
+      imgList: [],
+      selectUser: ""
+    };
+  }
 
+<<<<<<< HEAD
          componentDidMount() {
            this.props.fetchLeaderboards();
            this.props.fetchFeeds();
@@ -138,17 +145,90 @@ export class LeaderBoards extends Component {
            );
          }
        }
+=======
+  componentDidMount() {
+    this.props.fetchLeaderboards();
+  }
+  handleModal = () => {
+    this.setState({ modal: !this.state.modal });
+  };
+  handleOpen = user => {
+    fetchUserScore(user.id).then(list => {
+      this.setState({ selectUser: user, modal: true, selectUserList: list });
+    });
+  };
 
-const mapStateToProps = (state) => ({
-  content:state.content
-})
+  render() {
+    const { modal, selectUser, selectUserList } = this.state;
+    const { classes, content } = this.props;
+    return content.hasContent ? (
+      <List className={classes.root}>
+        {content.data.map((user, index) => (
+          <ListItem
+            button
+            onClick={() => {
+              this.handleOpen(user);
+            }}
+            alignItems="flex-start"
+          >
+            <ListItemAvatar>
+              <Avatar alt="Remy Sharp" src={user.data.photoURL} />
+            </ListItemAvatar>
+            <ListItemText primary={user.data.displayName} />
+            <ListItemSecondaryAction>
+              <React.Fragment>
+                <Typography
+                  component="span"
+                  className={classes.inline}
+                  color="textPrimary"
+                >
+                  {user.data.star}
+                  <StarIcon />
+                </Typography>{" "}
+                <Typography component="span" className={classes.inline}>
+                  {user.data.digged}%
+                </Typography>
+                <star_rate />
+              </React.Fragment>
+            </ListItemSecondaryAction>
+          </ListItem>
+        ))}
+        {selectUser.data !== undefined && (
+          <Modal
+            className={classes.modals}
+            title={selectUser.data.displayName}
+            isOpen={modal}
+            handleModal={this.handleModal}
+            content={
+              <List>
+                {selectUserList.map(item => (
+                  <ModalListItemSection lotto={item} />
+                ))}
+              </List>
+            }
+          />
+        )}
+      </List>
+    ) : (
+      <p>Loading</p>
+    );
+  }
+}
+>>>>>>> master
+
+const mapStateToProps = state => ({
+  content: state.content
+});
 
 const mapDispatchToProps = {
+<<<<<<< HEAD
   fetchLeaderboards,
   fetchFeeds,
   fetchSystem
+=======
+  fetchLeaderboards
+>>>>>>> master
 };
-
 
 export default withStyles(leaderStyle)(
   connect(

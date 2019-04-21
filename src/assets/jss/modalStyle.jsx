@@ -1,12 +1,20 @@
+import { RootRef } from "@material-ui/core";
+
 const modalStyle = theme => ({
   root: {
     width: "100%",
     backgroundColor: theme.palette.background.paper
   },
   modal: {
-    backgroundColor: "pink",
+    backgroundColor: "purple",
     width: "40vh",
     height: "30vh",
+    borderRadius: "6px"
+  },
+  modals: {
+    backgroundColor: "white",
+    width: 500,
+    height: 600,
     borderRadius: "6px"
   },
   modalHeader: {
@@ -46,7 +54,7 @@ const modalStyle = theme => ({
     paddingRight: "24px",
     paddingBottom: "16px",
     paddingLeft: "24px",
-    position: "relative",
+    position: "relative"
   },
   modalFooter: {
     padding: "15px",
