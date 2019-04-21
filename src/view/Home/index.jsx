@@ -130,7 +130,7 @@ class Home extends Component {
           <div>
             <ThemeProvider theme={theme}>
               <Box
-                color="primary.main"
+                color="white"
                 // bgcolor="background.paper"
                 fontFamily="h1.fontFamily"
                 fontSize={{

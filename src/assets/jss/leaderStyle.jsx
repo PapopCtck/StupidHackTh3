@@ -7,7 +7,10 @@ const leaderStyle = theme => ({
     display: "inline"
   },
   modal:{
-      backgroundColor:"#235671"
+    backgroundColor: "yellow",
+    width: 500,
+    height: 600,
+    borderRadius: "6px",
   }
 });
 

@@ -12,7 +12,7 @@ import IconButton from "@material-ui/core/IconButton";
 // @material-ui/icons
 import Close from "@material-ui/icons/Close";
 // core components
-import Button from "@material-ui/core/Button"
+import Button from "@material-ui/core/Button";
 
 import modalStyle from "../assets/jss/modalStyle";
 
@@ -33,7 +33,7 @@ class Modal extends React.Component {
       <Dialog
         classes={{
           root: classes.center,
-          paper: classes.modal
+          paper: classes.modals
         }}
         open={isOpen}
         TransitionComponent={Transition}
