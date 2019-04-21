@@ -26,9 +26,13 @@ export class ModalListItemSection extends Component {
         <ListItemAvatar>
           <Avatar alt="Remy Sharp" src={this.state.img} />
         </ListItemAvatar>
-        <ListItemText primary={moment(lotto.date.toDate()).fromNow()} />
-        <ListItemSecondaryAction >
-                {lotto.lotto!==undefined && lotto.lotto.map((num)=><Button>{num}</Button>)}
+        <ListItemText
+          primary={"ถูก"}
+          secondary={moment(lotto.date.toDate()).fromNow()}
+        />
+        <ListItemSecondaryAction>
+          {lotto.lotto !== undefined &&
+            lotto.lotto.map(num => <Button>{num}</Button>)}
         </ListItemSecondaryAction>
       </ListItem>
     );

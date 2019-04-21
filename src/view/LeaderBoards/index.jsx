@@ -7,12 +7,19 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
-import { fetchLeaderboards, fetchUserScore ,getImgfromStorage } from "../../actions/firebase";
+import {
+  fetchLeaderboards,
+  fetchUserScore,
+  fetchFeeds,
+  fetchSystem
+} from "../../actions/firebase";
 import { connect } from 'react-redux'
 import Modal from "../../Components/Modal";
 import ModalListItemSection from './Sections/ModalListItemSection';
 import leaderStyle from "../../assets/jss/leaderStyle"
 import StarIcon from "@material-ui/icons/Star";
+import * as moment from "moment";
+import { Grid } from '@material-ui/core';
 export class LeaderBoards extends Component {
          constructor(props) {
            super(props);
@@ -26,6 +33,8 @@ export class LeaderBoards extends Component {
 
          componentDidMount() {
            this.props.fetchLeaderboards();
+           this.props.fetchFeeds();
+           this.props.fetchSystem();
          }
          handleModal = () => {
            this.setState({ modal: !this.state.modal });
@@ -40,58 +49,90 @@ export class LeaderBoards extends Component {
            const { modal, selectUser ,selectUserList } = this.state;
            const { classes, content } = this.props;
            return content.hasContent ? (
-             <List className={classes.root}>
-               {content.data.map((user, index) => (
-                 <ListItem
-                   button
-                   onClick={() => {
-                     this.handleOpen(user);
-                   }}
-                   alignItems="flex-start"
-                 >
-                   <ListItemAvatar>
-                     <Avatar
-                       alt="Remy Sharp"
-                       src={user.data.photoURL}
-                     />
-                   </ListItemAvatar>
-                   <ListItemText primary={user.data.displayName} />
-                   <ListItemSecondaryAction>
-                     <React.Fragment>
-                       <Typography
-                         component="span"
-                         className={classes.inline}
-                         color="textPrimary"
-                       >
-                         {user.data.star}<StarIcon/> 
-                       </Typography>{" "}
-                       <Typography
-                         component="span"
-                         className={classes.inline}
-                       >
-                         {user.data.digged}%
-                       </Typography>
-                       <star_rate/>
-                     </React.Fragment>
-                   </ListItemSecondaryAction>
-                 </ListItem>
-               ))}
-               {selectUser.data !== undefined && (
-                 <Modal
-                 className={classes.modal}
-                   title={selectUser.data.displayName}
-                   isOpen={modal}
-                   handleModal={this.handleModal}
-                   content={
-                     <List>
-                       {selectUserList.map(item => (
-                         <ModalListItemSection lotto={item} />
-                       ))}
-                     </List>
-                   }
-                 />
+             <Grid>
+               <h2>Ranking</h2>
+               <List className={classes.root}>
+                 {content.data.map((user, index) => (
+                   <ListItem
+                     button
+                     onClick={() => {
+                       this.handleOpen(user);
+                     }}
+                     alignItems="flex-start"
+                   >
+                     <ListItemAvatar>
+                       <Avatar
+                         alt="Remy Sharp"
+                         src={user.data.photoURL}
+                       />
+                     </ListItemAvatar>
+                     <ListItemText primary={user.data.displayName} />
+                     <ListItemSecondaryAction>
+                       <React.Fragment>
+                         <Typography
+                           component="span"
+                           className={classes.inline}
+                           color="textPrimary"
+                         >
+                           {user.data.star}
+                           <StarIcon />
+                         </Typography>{" "}
+                         <Typography
+                           component="span"
+                           className={classes.inline}
+                         >
+                           {user.data.digged} digged
+                         </Typography>
+                         <star_rate />
+                       </React.Fragment>
+                     </ListItemSecondaryAction>
+                   </ListItem>
+                 ))}
+                 {selectUser.data !== undefined && (
+                   <Modal
+                     className={classes.modal}
+                     title={selectUser.data.displayName}
+                     isOpen={modal}
+                     handleModal={this.handleModal}
+                     content={
+                       <List>
+                         {selectUserList.map(item => (
+                           <ModalListItemSection lotto={item} />
+                         ))}
+                       </List>
+                     }
+                   />
+                 )}
+               </List>
+               <h2>Recent Feeds</h2>
+               {content.hasSys && (
+                 <div>
+                   number: {content.system.trophy} time:
+                   {moment(content.system.date.toDate()).fromNow()}
+                 </div>
                )}
-             </List>
+               <List className={classes.root}>
+                 {content.hasFeeds &&
+                   content.feeds.map((lotto, index) => (
+                     <ModalListItemSection lotto={lotto} />
+                   ))}
+                 {selectUser.data !== undefined && (
+                   <Modal
+                     className={classes.modal}
+                     title={selectUser.data.displayName}
+                     isOpen={modal}
+                     handleModal={this.handleModal}
+                     content={
+                       <List>
+                         {selectUserList.map(item => (
+                           <ModalListItemSection lotto={item} />
+                         ))}
+                       </List>
+                     }
+                   />
+                 )}
+               </List>
+             </Grid>
            ) : (
              <p>Loading</p>
            );
@@ -104,6 +145,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   fetchLeaderboards,
+  fetchFeeds,
+  fetchSystem
 };
 
 
