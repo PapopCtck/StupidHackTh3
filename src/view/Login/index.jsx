@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-import { Grid, Button, withStyles } from "@material-ui/core";
+import { Grid, Button, withStyles, Modal } from "@material-ui/core";
 import firebase from "../../configs/firebase";
 import { connect } from "react-redux";
 import { signOut } from "../../actions/firebase";

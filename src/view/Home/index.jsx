@@ -15,13 +15,13 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: true,
+      modal: false,
       lottoId: "test",
       file: "",
       imgUrl: "",
       ready: false,
       display: false,
-      number: [1, 7, 8],
+      number: [],
       tempDigit: [],
       selectNum: []
     };
@@ -61,6 +61,7 @@ class Home extends Component {
   };
   handleRealSubmit = () => {
     this.props.sendNumLotto(this.state.selectNum, this.state.lottoId);
+    this.setState({file:"", imgUrl:"" ,display:false})
   };
 
   handleSelectDigit = num => {
@@ -249,7 +250,7 @@ class Home extends Component {
                 </div>
               )
             }
-            submit={ready ? this.handleRealSubmit : undefined}
+            submit={ready&&selectNum.length!==0 ? this.handleRealSubmit : undefined}
             handleModal={this.handleModal}
           />
         </Grid>

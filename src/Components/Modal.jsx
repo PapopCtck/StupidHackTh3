@@ -47,15 +47,6 @@ class Modal extends React.Component {
           disableTypography
           className={classes.modalHeader}
         >
-          <IconButton
-            className={classes.modalCloseButton}
-            key="close"
-            aria-label="Close"
-            color="inherit"
-            onClick={() => this.handleClose()}
-          >
-            <Close className={classes.modalClose} />
-          </IconButton>
           <h4 className={classes.modalTitle}>{title}</h4>
         </DialogTitle>
         <DialogContent
@@ -68,7 +59,6 @@ class Modal extends React.Component {
           <DialogActions
             className={classes.modalFooter + " " + classes.modalFooterCenter}
           >
-            <Button onClick={() => this.handleClose()}>No</Button>
             <Button
               onClick={() => {
                 submit();
