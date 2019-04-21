@@ -37,7 +37,9 @@ export class LeaderBoards extends Component {
            this.props.fetchSystem();
          }
          handleModal = () => {
-           this.setState({ modal: !this.state.modal });
+           if(this.state.modal) this.setState({selectUserList:[],imgList:[]})
+           this.setState({ modal: !this.state.modal});
+           
          };
          handleOpen =(user)=> {
            fetchUserScore(user.id).then((list)=>{
@@ -88,21 +90,6 @@ export class LeaderBoards extends Component {
                      </ListItemSecondaryAction>
                    </ListItem>
                  ))}
-                 {selectUser.data !== undefined && (
-                   <Modal
-                     className={classes.modal}
-                     title={selectUser.data.displayName}
-                     isOpen={modal}
-                     handleModal={this.handleModal}
-                     content={
-                       <List>
-                         {selectUserList.map(item => (
-                           <ModalListItemSection lotto={item} />
-                         ))}
-                       </List>
-                     }
-                   />
-                 )}
                </List>
                <h2>Recent Feeds</h2>
                {content.hasSys && (
@@ -114,7 +101,10 @@ export class LeaderBoards extends Component {
                <List className={classes.root}>
                  {content.hasFeeds &&
                    content.feeds.map((lotto, index) => (
-                     <ModalListItemSection lotto={lotto} />
+                     <ModalListItemSection
+                       lotto={lotto}
+                       prize={content.system.trophy}
+                     />
                    ))}
                  {selectUser.data !== undefined && (
                    <Modal
