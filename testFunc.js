@@ -18,6 +18,7 @@ const main = ()=>{
     console.log("totaltime = "+totaltime)
     console.log(checkhuay(9,10))
     displaypercent(righttime,wrongtime,drawntime,totaltime)
+    console.log(checkhuay(09,00))
 }
 
 
@@ -73,7 +74,7 @@ const checkhuay =(doubt,prize)=>{
         return 3
     }else if(x==1||x==-1||x==10||x==-10){
         return 1
-    }else if(swift%9==0){
+    }else if(swift%9==0&&swift%10!=9){
         return 2
     }else{
          return -0.5
