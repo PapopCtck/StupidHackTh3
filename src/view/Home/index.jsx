@@ -15,7 +15,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false,
+      modal: true,
       lottoId: "test",
       file: "",
       imgUrl: "",
@@ -109,7 +109,8 @@ class Home extends Component {
     const fontdrag = {
       flex: 1,
       color: "Black",
-      fontSize: "40px",
+      opacity:"0.14",
+      fontSize: "88px",
       justifyContent: "center",
       alignItems: "center"
     };
@@ -179,8 +180,10 @@ class Home extends Component {
             focusVisibleClassName={classes.focusVisible}
             style={{
               marginTop: "1rem",
+              marginBottom:"20%",
               marginLeft: "20%",
               marginRight: "20%",
+
               width: "60%"
             }}
           >
@@ -203,6 +206,8 @@ class Home extends Component {
               </Typography>
             </span>
           </ButtonBase>
+
+
           <Modal
             isOpen={this.state.modal}
             title={"test"}

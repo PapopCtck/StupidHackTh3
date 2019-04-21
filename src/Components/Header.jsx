@@ -55,11 +55,9 @@ class Header extends React.Component {
               className={classes.menuButton}
               color="inherit"
               aria-label="Menu"
-            >
-              <MenuIcon />
-            </IconButton>
+            />
             <Typography variant="h6" color="inherit" className={classes.grow}>
-              Photos
+              DIG LOTTO
             </Typography>
             <Button color="inherit" onClick={() => hist.push("/")}>
               {" "}
