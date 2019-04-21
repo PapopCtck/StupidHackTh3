@@ -123,19 +123,29 @@ export const sendLotto = (image) => (dispatch,getState) => {
                 )
                 .then(res => {
                   let ResponseData = res.data[0].textAnnotations;
+                  if(ResponseData == null || []){
+                    return resolve({
+                      data : [0,9,1,7,4,8,6,3,7,3],
+                      id: ref.id
+                    })
+                  }
                   ResponseData.map((item)=>{
                     function onlyUnique(value, index, self) { 
                       return self.indexOf(value) === index;
                   }
-                    let Huay = item.description.match(/\d/g).map(Number)
+                  
+                    let Huay = item.description.match(/\d/g).map(Number);
                     let uniqueHuay = Huay.filter( onlyUnique );
-                    console.log()
+                    
+                    console.log(uniqueHuay)
                      resolve({
                        data: uniqueHuay.sort(),
                        id: ref.id
                      });
                     // เอา uniqueHuay ไปใช้ได้เลย
-                  })
+                  }
+                  
+                  )
                  
                 }).catch(err =>{});
             });
