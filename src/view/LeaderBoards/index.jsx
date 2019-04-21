@@ -13,13 +13,14 @@ import {
   fetchFeeds,
   fetchSystem
 } from "../../actions/firebase";
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 import Modal from "../../Components/Modal";
 import ModalListItemSection from "./Sections/ModalListItemSection";
 import leaderStyle from "../../assets/jss/leaderStyle";
 import StarIcon from "@material-ui/icons/Star";
 import * as moment from "moment";
-import { Grid } from '@material-ui/core';
+import { Grid } from "@material-ui/core";
+import { flexbox } from "@material-ui/system";
 export class LeaderBoards extends Component {
   constructor(props) {
     super(props);
@@ -91,13 +92,15 @@ export class LeaderBoards extends Component {
                    </ListItem>
                  ))}
                </List>
-               <h2>Recent Feeds</h2>
-               {content.hasSys && (
-                 <div>
-                   number: {content.system.trophy} time:
-                   {moment(content.system.date.toDate()).fromNow()}
-                 </div>
-               )}
+               <Grid container direction="row" justify="flex-start" alignItems="flex-start">
+          <h2>Recent Feeds</h2>
+        </Grid>
+        {content.hasSys && (          
+            <Grid container direction="row" justify="flex-end" alignItems="flex-end">
+              <h3>number: {content.system.trophy} time:
+              {moment(content.system.date.toDate()).fromNow()}</h3>
+            </Grid>          
+        )}
                <List className={classes.root}>
                  {content.hasFeeds &&
                    content.feeds.map((lotto, index) => (
