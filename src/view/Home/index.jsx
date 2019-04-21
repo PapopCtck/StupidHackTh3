@@ -116,7 +116,12 @@ class Home extends Component {
 
     return (
       <div>
-        <Grid container direction="row" justify="center" alignItems="center">
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          alignItems="center"
+        >
           <div>
             <ThemeProvider theme={theme}>
               <Box
@@ -160,7 +165,12 @@ class Home extends Component {
           </div>
         </Grid>
 
-        <Grid container direction="row" justify="center" alignItems="center">
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          alignItems="center"
+        >
           <ButtonBase
             focusRipple
             key={"sfas"}
@@ -203,11 +213,12 @@ class Home extends Component {
                 </div>
               ) : (
                 <div>
-                  {selectNum.length!==3&&number.map(num => (
-                    <Button onClick={() => this.handleSelectDigit(num)}>
-                      {num}
-                    </Button>
-                  ))}
+                  {selectNum.length !== 3 &&
+                    number.map(num => (
+                      <Button onClick={() => this.handleSelectDigit(num)}>
+                        {num}
+                      </Button>
+                    ))}
                   <br />
                   <div>
                     {tempDigit.map((num, index) => (
@@ -216,7 +227,10 @@ class Home extends Component {
                       </Button>
                     ))}
                     {selectNum.length < 3 && tempDigit.length === 2 && (
-                      <Button color="primary" onClick={this.handleSelectNum}>
+                      <Button
+                        color="primary"
+                        onClick={this.handleSelectNum}
+                      >
                         +
                       </Button>
                     )}
@@ -230,7 +244,7 @@ class Home extends Component {
                 </div>
               )
             }
-            submit={ready&&this.handleRealSubmit}
+            submit={ready ? this.handleRealSubmit : undefined}
             handleModal={this.handleModal}
           />
         </Grid>
