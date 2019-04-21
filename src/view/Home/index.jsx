@@ -8,14 +8,16 @@ import { createMuiTheme } from "@material-ui/core/styles";
 import { palette, spacing, typography } from "@material-ui/system";
 import Typography from "@material-ui/core/Typography";
 import ButtonBase from "@material-ui/core/ButtonBase";
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 import { sendLotto, sendNumLotto } from "../../actions/firebase";
 import Modal from "../../Components/Modal";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: true,
+      modal: false,
       lottoId: "test",
       file: "",
       imgUrl: "",
@@ -54,9 +56,9 @@ class Home extends Component {
   };
 
   handleSubmit = () => {
-    this.setState({modal:true,ready:false})
+    this.setState({ modal: true, ready: false });
     this.props.sendLotto(this.state.file).then(res => {
-      this.setState({ lottoId: res.id, number: res.data ,ready:true});
+      this.setState({ lottoId: res.id, number: res.data, ready: true });
     });
   };
   handleRealSubmit = () => {
@@ -109,20 +111,21 @@ class Home extends Component {
     const fontdrag = {
       flex: 1,
       color: "Black",
-      opacity:"0.14",
+      opacity: "0.14",
       fontSize: "88px",
       justifyContent: "center",
       alignItems: "center"
     };
+    const modalstyle = {
+      fontSize: "50px",
+      justifyContent: "center",
+      alignItems: "center",
+      width: "20%"
+    };
 
     return (
       <div>
-        <Grid
-          container
-          direction="row"
-          justify="center"
-          alignItems="center"
-        >
+        <Grid container direction="row" justify="center" alignItems="center">
           <div>
             <ThemeProvider theme={theme}>
               <Box
@@ -166,12 +169,7 @@ class Home extends Component {
           </div>
         </Grid>
 
-        <Grid
-          container
-          direction="row"
-          justify="center"
-          alignItems="center"
-        >
+        <Grid container direction="row" justify="center" alignItems="center">
           <ButtonBase
             focusRipple
             key={"sfas"}
@@ -180,7 +178,7 @@ class Home extends Component {
             focusVisibleClassName={classes.focusVisible}
             style={{
               marginTop: "1rem",
-              marginBottom:"20%",
+              marginBottom: "20%",
               marginLeft: "20%",
               marginRight: "20%",
 
@@ -207,15 +205,24 @@ class Home extends Component {
             </span>
           </ButtonBase>
 
-
           <Modal
             isOpen={this.state.modal}
-            title={"test"}
+            title={"Select number"}
             content={
               !ready ? (
-                <div>
-                  <h2>Loading...</h2>
-                </div>
+                <Grid
+                  container
+                  direction="row"
+                  justify="center"
+                  alignItems="center"
+                >
+                  <div style={modalstyle}>
+                    <CircularProgress
+                      className={classes.progress}
+                      color="secondary"
+                    />
+                  </div>
+                </Grid>
               ) : (
                 <div>
                   {selectNum.length !== 3 &&
@@ -232,10 +239,7 @@ class Home extends Component {
                       </Button>
                     ))}
                     {selectNum.length < 3 && tempDigit.length === 2 && (
-                      <Button
-                        color="primary"
-                        onClick={this.handleSelectNum}
-                      >
+                      <Button color="primary" onClick={this.handleSelectNum}>
                         +
                       </Button>
                     )}
@@ -257,13 +261,16 @@ class Home extends Component {
     );
   }
 }
-const mapStateToProps = (state) => ({
-  
-})
+const mapStateToProps = state => ({});
 
 const mapDispatchToProps = {
   sendLotto,
   sendNumLotto
 };
 
-export default withStyles(homeStyle)(connect(mapStateToProps,mapDispatchToProps)(Home));
+export default withStyles(homeStyle)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Home)
+);

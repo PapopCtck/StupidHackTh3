@@ -67,7 +67,7 @@ class Modal extends React.Component {
         {this.props.submit !== undefined && (
           <DialogActions
             className={classes.modalFooter + " " + classes.modalFooterCenter}
-          >
+          >ustifyContent : "center"
             <Button onClick={() => this.handleClose()}>No</Button>
             <Button
               onClick={() => {
