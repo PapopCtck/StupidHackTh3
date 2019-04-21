@@ -1,9 +1,12 @@
-const modalStyle = theme =>({
+const modalStyle = theme => ({
   root: {
     width: "100%",
     backgroundColor: theme.palette.background.paper
   },
   modal: {
+    backgroundColor: "pink",
+    width: "40vh",
+    height: "30vh",
     borderRadius: "6px"
   },
   modalHeader: {
@@ -16,7 +19,8 @@ const modalStyle = theme =>({
   },
   modalTitle: {
     margin: "0",
-    lineHeight: "1.42857143"
+    lineHeight: "1.42857143",
+    color: "black"
   },
   modalCloseButton: {
     color: "#999999",
@@ -42,7 +46,7 @@ const modalStyle = theme =>({
     paddingRight: "24px",
     paddingBottom: "16px",
     paddingLeft: "24px",
-    position: "relative"
+    position: "relative",
   },
   modalFooter: {
     padding: "15px",
@@ -54,6 +58,6 @@ const modalStyle = theme =>({
     marginLeft: "auto",
     marginRight: "auto"
   }
-})
+});
 
 export default modalStyle;
