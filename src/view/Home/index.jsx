@@ -226,13 +226,14 @@ class Home extends Component {
                 </Grid>
               ) : (
                 <div>
+                  <hr/>
                   {selectNum.length !== 3 &&
                     number.map(num => (
                       <Button onClick={() => this.handleSelectDigit(num)}>
                         {num}
                       </Button>
                     ))}
-                  <br />
+                  <br /><hr/>
                   <div>
                     {tempDigit.map((num, index) => (
                       <Button onClick={() => this.handleDelDigit(index)}>
@@ -240,14 +241,14 @@ class Home extends Component {
                       </Button>
                     ))}
                     {selectNum.length < 3 && tempDigit.length === 2 && (
-                      <Button color="primary" onClick={this.handleSelectNum}>
+                      <Button color="secondary" onClick={this.handleSelectNum}>
                         +
                       </Button>
                     )}
                   </div>
-                  <br />
+                  <br /><hr/>
                   {selectNum.map((num, index) => (
-                    <Button onClick={() => this.handleDelNum(index)}>
+                    <Button onClick={() => this.handleDelNum(index)} color="primary">
                       {num}
                     </Button>
                   ))}

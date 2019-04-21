@@ -97,7 +97,7 @@ export class LeaderBoards extends Component {
         </Grid>
         {content.hasSys && (          
             <Grid container direction="row" justify="flex-end" alignItems="flex-end">
-              <h3>number: {content.system.trophy} time:
+              <h3>เลข2ตัวท้าย: {content.system.trophy} time:
               {moment(content.system.date.toDate()).fromNow()}</h3>
             </Grid>          
         )}
