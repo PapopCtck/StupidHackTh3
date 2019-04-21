@@ -15,7 +15,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false,
+      modal: true,
       lottoId: "test",
       file: "",
       imgUrl: "",
@@ -196,6 +196,8 @@ class Home extends Component {
               </Typography>
             </span>
           </ButtonBase>
+
+
           <Modal
             isOpen={this.state.modal}
             title={"test"}
