@@ -99,30 +99,57 @@ export const fetchUserScore = (uid) => new Promise((resolve, reject) => {
 //!--------------------------Lotto ------------------------//
 
 export const sendLotto = (image) => (dispatch,getState) => {
-  const {auth} =getState()
-  var payload = {
-    ownerUid : auth.data.uid,
-    date: new Date(),
-  }
-   db.collection('lotto').add(payload).then((ref)=>{
-      //upload image to Storage
-      //firebase.storage().ref('lotto').child(ref.id+".jpg").put(  image file   )
-      firebase.storage().ref().child('/'+ref.id+".jpg").put(image).then(()=>{
-        axios.get(
-          "https://us-central1-stupidhackth3-a65a8.cloudfunctions.net/Dignumber",
-         { params : {"data" : ref.id+".jpg"}
-         } ).then(res =>{
-          console.log(res.data)
-        })
-      })
-      console.log(ref.id);
-    }) 
-    
+  return new Promise((resolve, reject) => {
+      const { auth } = getState();
+      var payload = {
+        ownerUid: auth.data.uid,
+        date: new Date()
+      };
+      db.collection("lotto")
+        .add(payload)
+        .then(ref => {
+          //upload image to Storage
+          //firebase.storage().ref('lotto').child(ref.id+".jpg").put(  image file   )
+          firebase
+            .storage()
+            .ref()
+            .child("/" + ref.id + ".jpg")
+            .put(image)
+            .then(() => {
+              axios
+                .get(
+                  "https://us-central1-stupidhackth3-a65a8.cloudfunctions.net/Dignumber",
+                  { params: { data: ref.id + ".jpg" } }
+                )
+                .then(res => {
+                  let ResponseData = res.data[0].textAnnotations;
+                  ResponseData.map((item)=>{
+                    function onlyUnique(value, index, self) { 
+                      return self.indexOf(value) === index;
+                  }
+                    let Huay = item.description.match(/\d/g).map(Number)
+                    let uniqueHuay = Huay.filter( onlyUnique );
+                    console.log()
+                     resolve({
+                       data: uniqueHuay.sort(),
+                       id: ref.id
+                     });
+                    // เอา uniqueHuay ไปใช้ได้เลย
+                  })
+                 
+                }).catch(err =>{});
+            });
+        }); 
+
+  });
 }
 export const sendNumLotto = (numList,Lid) => (dispatch,getState) => {
   const { auth } = getState()
-  db.collection('lottto').doc(Lid).update({
-    lotto:numList
+  db.collection('lotto').doc(Lid).update({
+    lotto:numList,
+    date:new Date(),
+    ownerUid:auth.data.uid,
+    checked:false
   })
 }
 

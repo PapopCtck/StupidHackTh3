@@ -11,17 +11,8 @@ import { fetchLeaderboards, fetchUserScore ,getImgfromStorage } from "../../acti
 import { connect } from 'react-redux'
 import Modal from "../../Components/Modal";
 import ModalListItemSection from './Sections/ModalListItemSection';
-
-const styles = theme => ({
-  root: {
-    width: "100%",
-    backgroundColor: theme.palette.background.paper
-  },
-  inline: {
-    display: "inline"
-  }
-});
-
+import leaderStyle from "../../assets/jss/leaderStyle"
+import StarIcon from "@material-ui/icons/Star";
 export class LeaderBoards extends Component {
          constructor(props) {
            super(props);
@@ -72,7 +63,7 @@ export class LeaderBoards extends Component {
                          className={classes.inline}
                          color="textPrimary"
                        >
-                         {user.data.star} Star
+                         {user.data.star}<StarIcon/> 
                        </Typography>{" "}
                        <Typography
                          component="span"
@@ -80,12 +71,14 @@ export class LeaderBoards extends Component {
                        >
                          {user.data.digged}%
                        </Typography>
+                       <star_rate/>
                      </React.Fragment>
                    </ListItemSecondaryAction>
                  </ListItem>
                ))}
                {selectUser.data !== undefined && (
                  <Modal
+                 className={classes.modal}
                    title={selectUser.data.displayName}
                    isOpen={modal}
                    handleModal={this.handleModal}
@@ -114,4 +107,9 @@ const mapDispatchToProps = {
 };
 
 
-export default withStyles(styles)(connect(mapStateToProps,mapDispatchToProps)(LeaderBoards));
+export default withStyles(leaderStyle)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(LeaderBoards)
+);

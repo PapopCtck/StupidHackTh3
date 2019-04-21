@@ -7,21 +7,22 @@ import styled, { ThemeProvider } from "styled-components";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { palette, spacing, typography } from "@material-ui/system";
 import Typography from "@material-ui/core/Typography";
-import ModalSection from "./Sections/ModalSection";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import { connect } from 'react-redux'
-import {sendLotto} from "../../actions/firebase"
+import { sendLotto, sendNumLotto } from "../../actions/firebase";
 import Modal from "../../Components/Modal";
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: false,
+      lottoId: "test",
       file: "",
       imgUrl: "",
       ready: false,
       display: false,
-      number: [0,9,1,7,4,8,6,3,7,3],
+      number: [1, 7, 8],
+      tempDigit: [],
       selectNum: []
     };
   }
@@ -31,8 +32,6 @@ class Home extends Component {
 
   handleChange = files => {
     var fileTypes = ["jpg", "jpeg", "png"];
-    console.log(files);
-
     let reader = new FileReader();
     let file = files[0];
     var fileType = file.name
@@ -55,25 +54,41 @@ class Home extends Component {
   };
 
   handleSubmit = () => {
-    this.props.sendLotto(this.state.file);
+    this.setState({modal:true,ready:false})
+    this.props.sendLotto(this.state.file).then(res => {
+      this.setState({ lottoId: res.id, number: res.data ,ready:true});
+    });
   };
   handleRealSubmit = () => {
-    console.log("test");
+    this.props.sendNumLotto(this.state.selectNum, this.state.lottoId);
   };
-  handleSelectNum = num => {
-    let a = this.state.selectNum;
+
+  handleSelectDigit = num => {
+    let a = this.state.tempDigit;
     a.unshift(num);
     a.length === 3 && a.pop();
-    this.setState({ selectNum: a });
+    this.setState({ tempDigit: a });
+  };
+  handleDelDigit = index => {
+    let a = this.state.tempDigit;
+    a = a.filter((num, i) => i !== index);
+    this.setState({ tempDigit: a });
   };
   handleDelNum = index => {
-    let a = this.state.selectNum
-    a = a.filter((num,i)=> i!=index)
-    this.setState({selectNum:a})
-  }
+    let a = this.state.selectNum;
+    a = a.filter((num, i) => i !== index);
+    this.setState({ selectNum: a });
+  };
+  handleSelectNum = () => {
+    const { tempDigit, selectNum } = this.state;
+    var x = tempDigit.join("");
+    let a = selectNum;
+    a.push(x);
+    this.setState({ selectNum: a, tempDigit: [] });
+  };
 
   render() {
-    const { number, selectNum } = this.state;
+    const { number, selectNum, ready, tempDigit } = this.state;
     const Box = styled.div`${palette}${spacing}${typography}`;
     const theme = createMuiTheme({
       typography: {
@@ -102,12 +117,7 @@ class Home extends Component {
 
     return (
       <div>
-        <Grid
-          container
-          direction="row"
-          justify="center"
-          alignItems="center"
-        >
+        <Grid container direction="row" justify="center" alignItems="center">
           <div>
             <ThemeProvider theme={theme}>
               <Box
@@ -151,16 +161,11 @@ class Home extends Component {
           </div>
         </Grid>
 
-        <Grid
-          container
-          direction="row"
-          justify="center"
-          alignItems="center"
-        >
+        <Grid container direction="row" justify="center" alignItems="center">
           <ButtonBase
             focusRipple
             key={"sfas"}
-            onClick={() => console.log("tsd")}
+            onClick={this.handleSubmit}
             className={classes.image}
             focusVisibleClassName={classes.focusVisible}
             style={{
@@ -195,23 +200,40 @@ class Home extends Component {
             isOpen={this.state.modal}
             title={"test"}
             content={
-              <div>
-                {number.map(num => (
-                  <Button onClick={() => this.handleSelectNum(num)}>
-                    {num}
-                  </Button>
-                ))}
-                <br />
+              !ready ? (
                 <div>
+                  <h2>Loading...</h2>
+                </div>
+              ) : (
+                <div>
+                  {selectNum.length!==3&&number.map(num => (
+                    <Button onClick={() => this.handleSelectDigit(num)}>
+                      {num}
+                    </Button>
+                  ))}
+                  <br />
+                  <div>
+                    {tempDigit.map((num, index) => (
+                      <Button onClick={() => this.handleDelDigit(index)}>
+                        {num}
+                      </Button>
+                    ))}
+                    {selectNum.length < 3 && tempDigit.length === 2 && (
+                      <Button color="primary" onClick={this.handleSelectNum}>
+                        +
+                      </Button>
+                    )}
+                  </div>
+                  <br />
                   {selectNum.map((num, index) => (
                     <Button onClick={() => this.handleDelNum(index)}>
                       {num}
                     </Button>
                   ))}
                 </div>
-              </div>
+              )
             }
-            submit={this.handleRealSubmit}
+            submit={ready&&this.handleRealSubmit}
             handleModal={this.handleModal}
           />
         </Grid>
@@ -224,7 +246,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-  sendLotto
+  sendLotto,
+  sendNumLotto
 };
 
 export default withStyles(homeStyle)(connect(mapStateToProps,mapDispatchToProps)(Home));
