@@ -18,6 +18,8 @@ const main = ()=>{
     console.log("totaltime = "+totaltime)
     console.log(checkhuay(9,10))
     displaypercent(righttime,wrongtime,drawntime,totaltime)
+    console.log(checkhuay(47,38))
+    console.log(checkhuay(92,29))
 }
 
 
@@ -67,13 +69,14 @@ const reranktotalscore =(allbai,prize)=>{
     return score
 }
 const checkhuay =(doubt,prize)=>{
-    var swift = doubt-prize
+    var swift = 10*(doubt%10)+(prize%10)
+    var check = doubt+prize
     var x = prize-doubt
     if(x==0){
         return 3
     }else if(x==1||x==-1||x==10||x==-10){
         return 1
-    }else if(swift%9==0){
+    }else if(swift==doubt||swift==prize){
         return 2
     }else{
          return -0.5
